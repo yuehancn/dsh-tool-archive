@@ -1,0 +1,5 @@
+node_modules/
+archive-output/
+archive-extract/
+archive-sandbox/
+*.log

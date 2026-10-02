@@ -1,0 +1,21 @@
+# The dsh-tool-archive bundle patch: one insert adding the archive tool suite.
+#
+# There is nothing to install. The tar format is written and read inside this
+# plugin, so it has no binary dependency and no optional peer.
+#
+# Point it at a workspace and a place to keep archives:
+#
+#   - id: tool-archive
+#     config:
+#       workDir: C:/Users/you/project
+#       archiveDir: C:/Users/you/project/archive-output
+#       extractDir: C:/Users/you/project/archive-extract
+#       exclude:
+#         - node_modules
+#         - .git
+#       maxEntries: 20000
+#       noOverwrite: false
+
+- insert:
+    - id: tool-archive
+      name: dsh-tool-archive
