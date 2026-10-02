@@ -163,13 +163,16 @@ GNU tar 会把 `C:` 当成**远程主机**去开 rsh 连接，报 `Cannot connec
 node _test/run-all.mjs
 ```
 
-**598 条断言，3 个套件全绿。**
+**636 条断言，4 个套件全绿。**
 
 | 套件 | 断言 | 覆盖 |
 |---|---|---|
 | `test-logic.mjs` | 245 | 八进制字段、ustar name/prefix 拆分、checksum、块遍历、截断检测、路径守卫、digest、清单 diff |
 | `test-integration.mjs` | 233 | 四个工具经真实 context、编译后的 schema 形状、注入 seam、打包/解包/验证往返、逃逸攻击 |
 | `test-e2e.mjs` | 120 | 真目录真字节、二进制载荷、空文件、空目录、CJK 文件名、**系统 GNU tar 互操作**、恶意归档 |
+| `regression-published.mjs` | 38 | **不改一字地从磁盘 import 入口**：`package.json` 元数据、真 schemastery 默认值、真 `dsh-tools` 编译 schema、`register` → `execute` 端到端 |
+
+前三个套件把插件的 import 剥掉、用 `new Function` 重建，好让白盒断言能碰到内部函数 —— 但那样**从来没有真正加载过这个包**。第四个套件什么都不剥：`import` 磁盘上那份 `lib/index.js`，让真的 `@deepseek-ai/dsh-tools` 编译 schema，再真的注册、真的执行一次。它排在最后：如果它红了，说明内部逻辑是对的而**产物**不对。
 
 夹具的 tar **由 harness 里一个独立、朴素、不支持 prefix 的写入器生成**，不用被测代码。自己造夹具给自己读，会掩盖写入器本身的 bug；两者一致才有意义。
 
